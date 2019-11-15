@@ -97,4 +97,8 @@ app.on("activate", () => {
 </html>
 ```
 
-5. npm start
+5. start file
+
+```cmd
+npm start
+```
