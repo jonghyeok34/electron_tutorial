@@ -146,9 +146,7 @@ const template = [
 
 # context menu
 
-```
 menu which appears when right click
-```
 
 ## main.js
 
@@ -251,9 +249,7 @@ const template = [
 
 # global shortcuts
 
-```
 global shortcuts is shortcut which executes even window is not focus.
-```
 
 ## main.js
 
