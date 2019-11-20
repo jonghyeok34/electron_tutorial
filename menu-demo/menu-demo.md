@@ -225,3 +225,96 @@ app.on("ready", function() {
      ctxMenu.popup(win, params.x, params.y);
    });
    ```
+
+# accelerator
+
+```
+accelerator is shortcut which executes only when window is focused.
+```
+
+## main.js
+
+```js
+...
+const template = [
+  ...,
+  {
+    label: "Help",
+    submenu: [
+      {
+        label: "About Electron",
+        click: function() {
+          electron.shell.openExternal("http://electron.atom.io");
+        },
+        accelerator: "CmdOrCtrl + Shift + H"
+      }
+    ]
+  }
+];
+```
+
+# global shortcuts
+
+```
+global shortcuts is shortcut which executes even window is not focus.
+```
+
+## main.js
+
+```js
+const electron = require("electron");
+
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const path = require("path");
+const url = require("url");
+const Menu = electron.Menu;
+const MenuItem = electron.MenuItem;
+const globalShortcut = electron.globalShortcut;
+let win;
+
+function createWindow() {
+  ...
+}
+
+app.on("ready", function() {
+  createWindow();
+  ...
+
+  globalShortcut.register("Alt+1", function() {
+    win.show();
+  });
+});
+
+...
+app.on("will-quit", function() {
+  globalShortcut.unregisterAll();
+});
+
+
+...
+
+```
+
+1. import global shortcut
+
+```js
+const electron = require("electron");
+const globalShortcut = electron.globalShortcut;
+```
+
+2. register and add function : window is open when push alt + 1
+
+```js
+globalShortcut.register("Alt+1", function() {
+  win.show();
+});
+```
+
+3. unregister all when quit window
+
+```js
+app.on("will-quit", function() {
+  globalShortcut.unregisterAll();
+});
+```

@@ -6,6 +6,7 @@ const path = require("path");
 const url = require("url");
 const Menu = electron.Menu;
 const MenuItem = electron.MenuItem;
+const globalShortcut = electron.globalShortcut;
 let win;
 
 function createWindow() {
@@ -58,9 +59,15 @@ app.on("ready", function() {
     },
     {
       label: "Help",
-      click: function() {
-        electron.shell.openExternal("http://electron.atom.io");
-      }
+      submenu: [
+        {
+          label: "About Electron",
+          click: function() {
+            electron.shell.openExternal("http://electron.atom.io");
+          },
+          accelerator: "CmdOrCtrl + Shift + H"
+        }
+      ]
     }
   ];
   const menu = Menu.buildFromTemplate(template);
@@ -80,9 +87,13 @@ app.on("ready", function() {
       role: "selectall"
     })
   );
-  win.webContents.on("context-menu", function (e, params) {
+  win.webContents.on("context-menu", function(e, params) {
     /* params x, y helps menu to pop up on particular mouse position */
     ctxMenu.popup(win, params.x, params.y);
+  });
+
+  globalShortcut.register("Alt+1", function() {
+    win.show();
   });
 });
 
@@ -90,6 +101,10 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+app.on("will-quit", function() {
+  globalShortcut.unregisterAll();
 });
 
 app.on("activate", () => {
