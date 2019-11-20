@@ -1,5 +1,3 @@
-console.log("main process working");
-
 const electron = require("electron");
 
 const app = electron.app;
