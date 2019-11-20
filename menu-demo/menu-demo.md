@@ -1,8 +1,6 @@
 # Application menu
 
-```
 application menu :menu that is on the top of the window
-```
 
 ## main.js
 
@@ -228,9 +226,7 @@ app.on("ready", function() {
 
 # accelerator
 
-```
 accelerator is shortcut which executes only when window is focused.
-```
 
 ## main.js
 
