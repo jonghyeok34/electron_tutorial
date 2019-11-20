@@ -5,6 +5,7 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const url = require("url");
 const Menu = electron.Menu;
+const MenuItem = electron.MenuItem;
 let win;
 
 function createWindow() {
@@ -64,6 +65,25 @@ app.on("ready", function() {
   ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
+
+  const ctxMenu = new Menu();
+  ctxMenu.append(
+    new MenuItem({
+      label: "Hello",
+      click: function() {
+        console.log("Context menu item clicked");
+      }
+    })
+  );
+  ctxMenu.append(
+    new MenuItem({
+      role: "selectall"
+    })
+  );
+  win.webContents.on("context-menu", function (e, params) {
+    /* params x, y helps menu to pop up on particular mouse position */
+    ctxMenu.popup(win, params.x, params.y);
+  });
 });
 
 app.on("window-all-closed", () => {

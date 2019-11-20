@@ -1,5 +1,9 @@
 # Application menu
 
+```
+application menu :menu that is on the top of the window
+```
+
 ## main.js
 
 ```javascript
@@ -133,10 +137,91 @@ const template = [
 ```
 
 - attributes
-  | tag | description |
-  |--- | ----------|
-  |label| shown label |
-  |submenu | submenu |
-  |role | use predefined functions|
-  |type | use predefined elements|
-  |click| add function when click|
+
+  | tag     | description              |
+  | ------- | ------------------------ |
+  | label   | shown label              |
+  | submenu | submenu                  |
+  | role    | use predefined functions |
+  | type    | use predefined elements  |
+  | click   | add function when click  |
+
+# context menu
+
+```
+menu which appears when right click
+```
+
+## main.js
+
+```javascript
+const electron = require("electron");
+
+const app = electron.app;
+...
+const Menu = electron.Menu;
+const MenuItem = electron.MenuItem;
+...
+
+function createWindow() {
+  ...
+}
+
+app.on("ready", function() {
+  createWindow();
+  ...
+
+  const ctxMenu = new Menu();
+  ctxMenu.append(
+    new MenuItem({
+      label: "Hello",
+      click: function() {
+        console.log("Context menu item clicked");
+      }
+    })
+  );
+  ctxMenu.append(
+    new MenuItem({
+      role: "selectall"
+    })
+  );
+  win.webContents.on("context-menu", function (e, params) {
+    /* params x, y helps menu to pop up on particular mouse position */
+    ctxMenu.popup(win, params.x, params.y);
+  });
+});
+...
+
+```
+
+1. create new menu
+   ```javascript
+   const ctxMenu = new Menu();
+   ```
+2. append menu item
+
+   ```javascript
+   // use label & click
+   ctxMenu.append(
+     new MenuItem({
+       label: "Hello",
+       click: function() {
+         console.log("Context menu item clicked");
+       }
+     })
+   );
+   // use role
+   ctxMenu.append(
+     new MenuItem({
+       role: "selectall"
+     })
+   );
+   ```
+
+3. add event on context-menu(right click)
+   ```javascript
+   win.webContents.on("context-menu", function(e, params) {
+     /* params x, y helps menu to pop up on particular mouse position */
+     ctxMenu.popup(win, params.x, params.y);
+   });
+   ```
